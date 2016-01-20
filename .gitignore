@@ -2,3 +2,5 @@
 .gorilla-port
 .nrepl-*
 target/
+.idea/
+*.iml

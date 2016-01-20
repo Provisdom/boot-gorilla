@@ -1,21 +1,42 @@
 (set-env!
-  :source-paths #{"src"}
-  :dependencies '[[org.clojure/clojure       "1.6.0"       :scope "provided"]
-                  [gorilla-repl              "0.3.4"       :scope "provided"]
-                  [ns-tracker                "0.2.2"]
-                  [adzerk/bootlaces          "0.1.5"       :scope "test"]])
+  :source-paths #{"src" "test"}
+  :resource-paths #{"src" "test" "scss" "bower_components"}
+  :wagons '[[s3-wagon-private "1.1.2"]]
+  :repositories [["clojars" "http://clojars.org/repo/"]
+                 ["maven-central" "http://repo1.maven.org/maven2/"]
+                 ["my.datomic.com" {:url      "https://my.datomic.com/repo"
+                                    :username (System/getenv "DATOMIC_USERNAME")
+                                    :password (System/getenv "DATOMIC_PASSWORD")}]]
+  :dependencies '[[adzerk/boot-cljs "1.7.170-3" :scope "test"]
+                  #_[adzerk/boot-cljs-repl "0.2.0" :scope "test"]
+                  [adzerk/boot-reload "0.4.2" :scope "test"]
+                  [pandeiro/boot-http "0.7.0" :scope "test"]
+                  [cljsjs/boot-cljsjs "0.5.0" :scope "test"]
+                  [allgress/boot-tasks "0.2.3" :scope "test"]]
+  :compiler-options {:compiler-stats true})
 
-(require '[adzerk.bootlaces :refer :all])
+(require
+  '[adzerk.boot-cljs :refer :all]
+  #_'[adzerk.boot-cljs-repl :refer :all]
+  '[adzerk.boot-reload :refer :all]
+  '[allgress.boot-tasks :refer :all]
+  '[pandeiro.boot-http :refer :all]
+  '[cljsjs.boot-cljsjs :refer :all])
 
-(def +version+ "0.0.1")
+(set-project-deps!)
 
-(bootlaces! +version+)
+(default-task-options!)
 
-(task-options!
- pom  {:project     'boot-gorilla
-       :version     +version+
-       :description "Use the Gorilla REPL as a task in your Boot project"
-       :url         "https://github.com/mathias/boot-gorilla"
-       :scm         {:url "https://github.com/mathias/boot-gorilla"}
-       :license     {:name "Eclipse Public License"
-                     :url  "http://www.eclipse.org/legal/epl-v10.html"}})
+(deftask web-dev
+         "Developer workflow for web-component UX."
+         []
+         (comp
+           (asset-paths :asset-paths #{"html" "bower_components"})
+           (serve :dir "target/")
+           (watch)
+           #_(checkout :dependencies [['allgress/cereus "0.9.4"]
+                                      ['freactive "0.3.0"]])
+           (speak)
+           (reload)
+           (cljs)
+           #_(copy)))
