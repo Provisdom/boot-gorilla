@@ -20,7 +20,6 @@
                block (or block false)]
               (comp
                 (boot/with-pre-wrap fileset
-                               (require '[gorilla-repl.core :as g])
                                (g/run-gorilla-server {:port       port
                                                       :ip         ip
                                                       :nrepl-port nrepl-port
