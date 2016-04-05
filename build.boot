@@ -7,6 +7,8 @@
 
 (def +version+ "0.1.0")
 
+(require '[boot-gorilla.core :refer :all])
+
 (task-options!
   pom {:project     'boot-gorilla
        :version     +version+
