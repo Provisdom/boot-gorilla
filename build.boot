@@ -2,7 +2,7 @@
   :source-paths #{"src" "test"}
   :resource-paths #{"src" "test" "scss" "bower_components"}
   :dependencies '[[org.clojure/clojure "1.8.0"]
-                  [gorilla-repl "0.3.6"]]
+                  [gorilla-repl "0.3.7"]]
   :compiler-options {:compiler-stats true})
 
 (def +version+ "0.1.0")
