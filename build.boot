@@ -9,7 +9,7 @@
 (def +version+ "0.1.0")
 
 (require '[boot-gorilla.core :refer :all]
-         '[provisdom.boot-tasks.core :refer :all])
+         '[provisdom.boot-tasks.core :refer [release]])
 
 (task-options!
   pom {:project     'boot-gorilla
